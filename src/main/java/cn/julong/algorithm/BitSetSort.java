@@ -1,4 +1,4 @@
-package cn.julong.api;
+package cn.julong.algorithm;
 
 import java.util.Arrays;
 import java.util.BitSet;
