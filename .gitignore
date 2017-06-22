@@ -2,3 +2,5 @@
 .idea
 *.iml
 target
+*Main.java
+*file.txt
