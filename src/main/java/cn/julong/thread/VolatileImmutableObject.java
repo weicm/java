@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 /**
  * Created by weicm on 2017/7/7.
- * 不用同步锁解决线程安全问题的方法：
+ * 不用同步锁解决线程安全问题的方法（应用场景：多个状态变量的容器对象来维持不变性条件）：
  *      使用Volatile类型来发布不可变对象，解决多个非原子操作的线程安全问题
  * 引用Java并发编程实战中原话解释：
  *      通过使用包含多个状态变量的容器对象来维持不变性条件，并使用一个volatile类型的引用来确保可见性，从而是的SafeFactorizer在没有显示的使用锁的情况下仍然是线程安全的
@@ -15,7 +15,7 @@ public class VolatileImmutableObject {
      * 线程安全的因式分解示例
      */
     static class SafeFactorizer{
-        private volatile CacheValue cache;
+        private volatile CacheValue cache = new CacheValue(null, null);
 
         public Integer[] getFactors(Integer num) {
             Integer[] factors = cache.getFactors(num);
@@ -30,8 +30,8 @@ public class VolatileImmutableObject {
             return fs;
         }
         static class CacheValue {
-            private Integer cacheNumber;
-            private Integer[] cacheFactors;
+            private final Integer cacheNumber;
+            private final Integer[] cacheFactors;
 
             public CacheValue(Integer number, Integer[] factors) {
                 this.cacheNumber = number;
