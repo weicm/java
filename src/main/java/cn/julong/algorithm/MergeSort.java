@@ -6,6 +6,8 @@ import java.util.Arrays;
 
 /**
  * Created by weicm on 2017/6/6.
+ * 归并排序
+ * T(n) = O(nlogn)
  */
 public class MergeSort {
     public static void main(String[] args) {
@@ -26,11 +28,13 @@ public class MergeSort {
         System.out.println(Arrays.asList(nums));
 
     }
+
     /**
      * 二路归并排序（递归实现）
-     * @param nums 待排序的数组
+     *
+     * @param nums  待排序的数组
      * @param start 要数组排部分的起始位置索引
-     * @param end 要数组排部分的截止位置索引
+     * @param end   要数组排部分的截止位置索引
      */
     public static void mergeSort(Integer[] nums, int start, int end) {
         //只有一个元素，有序，结束
@@ -43,50 +47,56 @@ public class MergeSort {
         //排序右边部分
         mergeSort(nums, mid + 1, end);
 
-        //二路归并排序
+        //本次排序缓存
         Integer[] sorted = new Integer[end - start + 1];
-        int i = start;
-        int j = mid + 1;
-        int index = 0;
-        while (i <=mid && j <= end) {
-            if (nums[i] < nums[j]) {
-                sorted[index++] = nums[i++];
-            }else {
-                sorted[index++] = nums[j++];
+
+        for (int index = 0, i = start, j = mid + 1; index < sorted.length; index++) {
+            if (i > mid) {//左边剩余，将剩余元素追加到缓存
+                sorted[index] = nums[j++];
+            } else if (j > end) {//右边剩余，将剩余元素追加到缓存
+                sorted[index] = nums[i++];
+            } else if (nums[i] < nums[j]) {//左边i元素小于右边j元素，小元素追加到缓存
+                sorted[index] = nums[i++];
+            } else {//右边j元素小于左边i元素，小元素追加到缓存
+                sorted[index] = nums[j++];
             }
         }
-
-        while (i <= mid)
-            sorted[index++] = nums[i++];
-        while (j <= end)
-            sorted[index++] = nums[j++];
-
-        //将临时结果复制到原来数组中
-        for (int k: sorted) {
+        //将缓存内容写回源数组
+        for (int k : sorted) {
             nums[start++] = k;
         }
     }
+
     /**
      * 文件多路归并
+     *
      * @param out
      * @param ins
      */
     public static void fileMultiblePathMerge(RandomAccessFile out, RandomAccessFile[] ins) throws IOException {
         //输出化指针
         out.seek(0);
-        Arrays.stream(ins).forEach(in -> { try { in.seek(0); } catch (IOException e) { e.printStackTrace(); } });
+        Arrays.stream(ins).forEach(in -> {
+            try {
+                in.seek(0);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
 
 
     }
+
     /**
      * 多路归并
+     *
      * @param arrays 待归并的数组
      * @return
      */
     public static Integer[] multiblePathMerge(Integer[]... arrays) {
         //计算结果集数组大小
         int nums = 0;
-        for (Integer[] array: arrays) {
+        for (Integer[] array : arrays) {
             nums += array.length;
         }
         //归并结果集
@@ -107,14 +117,14 @@ public class MergeSort {
                 break;
 
             //求所有路的开头值最小的路径
-            for (int i=0; i<isOvers.length; i++) {
+            for (int i = 0; i < isOvers.length; i++) {
                 if (isOvers[i] == 0) {
                     minStartValuePath = i;
                     break;
                 }
             }
             //求开头值最小的路径
-            for (int i=0; i<arrays.length; i++) {
+            for (int i = 0; i < arrays.length; i++) {
                 if (isOvers[i] == 1 || minStartValuePath == i)
                     continue;
                 if (arrays[i][indexs[i]] < arrays[minStartValuePath][indexs[minStartValuePath]]) {
@@ -134,7 +144,6 @@ public class MergeSort {
 
         return mergedResult;
     }
-
 
 
 }
