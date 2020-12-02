@@ -11,8 +11,8 @@ public class PrintBaseEvenNumObjectSynchronized {
         Object locker = 1;
 
         new Thread(() -> {
-            while (ai.get() <= 100 && ai.get() <= 100) {
-                if (ai.get() % 2 == 0) {
+            while (ai.get() <= 100) {
+                if (ai.get() % 2 == 0 && ai.get() <= 100) {
                     synchronized (locker) {
                         System.out.println(Thread.currentThread().getName() + " " +ai.getAndAdd(1));
                     }

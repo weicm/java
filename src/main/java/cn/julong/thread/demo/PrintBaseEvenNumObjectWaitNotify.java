@@ -17,6 +17,7 @@ public class PrintBaseEvenNumObjectWaitNotify {
                     System.out.println(Thread.currentThread().getName() + " " +ai.getAndAdd(1));
                     locker.notifyAll();
                     try {
+                        //这里再次判断小于100的目的，避免打印完最后一个数后阻塞，因为没有不会再有下一个线程再来唤醒本线程了
                         if (ai.get() <= 100)
                             locker.wait();
                     } catch (InterruptedException e) {
