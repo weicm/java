@@ -16,20 +16,32 @@ public class QuickSort {
     static void quickSort(Integer[] arr, Integer start, Integer end) {
         if(start >= end)
             return;
+        // 保存左侧第一个元素，作为当前调整元素
         int tmp = arr[start];
         int i = start, j = end;
         while (i < j) {
-            while (i < j && arr[j] >= tmp) {
+            // 从右侧找比当前元素小的
+            while (i < j && arr[j] > tmp) {
                 j--;
             }
-            arr[i] = arr[j];
+            // i < j：找到之后，复制到当前元素位置
+            if (i < j) {
+                arr[i++] = arr[j];
+            }
+            // 从左侧找比当前元素大的
             while (i < j && arr[i] <= tmp) {
                 i++;
             }
-            arr[j] = arr[i];
+            // i < j：找到之后，复制到右侧元素空出的位置
+            if (i < j) {
+                arr[j--] = arr[i];
+            }
         }
+        // 循环退出后，i == j，将当前元素放入中间空出的位置
         arr[i] = tmp;
+        // 递归排序左侧部分
         quickSort(arr, start, i - 1);
+        // 递归排序右侧部分
         quickSort(arr,i + 1, end);
     }
 }
