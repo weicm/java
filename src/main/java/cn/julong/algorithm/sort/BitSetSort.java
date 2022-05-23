@@ -1,11 +1,8 @@
-package cn.julong.algorithm;
+package cn.julong.algorithm.sort;
 
 import java.util.Arrays;
 import java.util.BitSet;
-import java.util.Collections;
-import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 /**
  * Created by weicm on 2017/6/6.

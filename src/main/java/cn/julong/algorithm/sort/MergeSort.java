@@ -1,4 +1,4 @@
-package cn.julong.algorithm;
+package cn.julong.algorithm.sort;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;
