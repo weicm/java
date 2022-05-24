@@ -5,13 +5,39 @@ package cn.julong.algorithm.leetcode;
  */
 public class LC42TrappingRainWater {
     public static void main(String[] args) {
-        // int[] height = {0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1};
+        int[] height = {0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1};
         // int[] height = {4, 2, 3};
-        int[] height = {4, 2, 0, 3, 2, 5};
+        // int[] height = {4, 2, 0, 3, 2, 5};
 
-        System.out.println(trap(height));
+        System.out.println(trapWithTwoPoter(height));
     }
 
+    /**
+     * 双指针法
+     *
+     * @param height
+     * @return
+     */
+    public static int trapWithTwoPoter(int[] height) {
+        int acc = 0, l = 0, r = height.length - 1, lmh = 0, rmh = 0;
+        while (l < r) {
+            lmh = Math.max(lmh, height[l]);
+            rmh = Math.max(rmh, height[r]);
+            if (height[l] < height[r]) {
+                acc += lmh - height[l++];
+            } else {
+                acc += rmh - height[r--];
+            }
+        }
+        return acc;
+    }
+
+    /**
+     * 暴力破解法
+     *
+     * @param height
+     * @return
+     */
     public static int trap(int[] height) {
         int acc = 0;
         for (int l = 0; l < height.length - 2; ) {
