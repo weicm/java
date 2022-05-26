@@ -1,7 +1,7 @@
 package cn.julong.algorithm.leetcode;
 
 /**
- * 接雨水
+ * 42. 接雨水
  */
 public class LC42TrappingRainWater {
     public static void main(String[] args) {

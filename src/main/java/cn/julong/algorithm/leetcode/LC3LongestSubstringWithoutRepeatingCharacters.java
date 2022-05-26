@@ -3,7 +3,7 @@ package cn.julong.algorithm.leetcode;
 import java.util.HashMap;
 
 /**
- * 接雨水
+ * 3. 无重复字符的最长子串
  */
 public class LC3LongestSubstringWithoutRepeatingCharacters {
     public static void main(String[] args) {
