@@ -1,37 +1,18 @@
 package cn.julong.algorithm.leetcode;
 
+import cn.julong.algorithm.leetcode.repo.ListNode;
+
 import java.util.Deque;
 import java.util.LinkedList;
 
 public class LC19RemoveNthNodeFromEndOfList {
     public static void main(String[] args) {
 
-        ListNode head = buildList(new int[]{1, 2, 3, 4, 5}, 0);
+        ListNode head = ListNode.build(new int[]{1, 2, 3, 4, 5});
         // ListNode startNode = removeNthFromEnd(head, 2);
         ListNode startNode = removeNthFromEndByStack(head, 2);
-        printListNode(startNode);
+        ListNode.print(startNode);
     }
-
-    private static void printListNode(ListNode ln) {
-        while (ln != null) {
-            System.out.print(ln.val + ", ");
-            ln = ln.next;
-        }
-    }
-    private static ListNode buildList(int[] nums, int i) {
-        if (i == nums.length) {
-            return null;
-        }
-        return new ListNode(nums[i], buildList(nums, i + 1));
-    }
-    public static class ListNode {
-        int val;
-        ListNode next;
-        ListNode() {}
-        ListNode(int val) { this.val = val; }
-        ListNode(int val, ListNode next) { this.val = val; this.next = next; }
-    }
-
 
     /**
      * 递归+哑结点
