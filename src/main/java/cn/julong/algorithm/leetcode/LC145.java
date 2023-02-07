@@ -28,13 +28,20 @@ public class LC145 {
 
         TreeNode last = null;
         while(!stack.isEmpty()) {
+            // 1探测栈顶元素
             TreeNode node = stack.peek();
+
+            // 2判断是否出栈还是把子节点入栈
+            // 2.1左右均为空
             if ((node.left == null && node.right == null)
+                    // 2.2上次访问节点为左节点，且右节点为空
                     || (last == node.left && node.right == null)
+                    // 2.3上次访问节点是右节点（注意判断非空，避免 last == node.right == null）
                     || (last != null && last == node.right)) {
                 r.add(node.val);
                 last = stack.pop();
             } else {
+                // 3确保入栈顺序先右后座，才能保证出栈顺序为先左后右
                 if (node.right != null) {
                     stack.push(node.right);
                 }
