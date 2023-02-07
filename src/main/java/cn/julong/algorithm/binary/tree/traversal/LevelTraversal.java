@@ -1,5 +1,7 @@
 package cn.julong.algorithm.binary.tree.traversal;
 
+import cn.julong.algorithm.common.TreeNode;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
