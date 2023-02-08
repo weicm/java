@@ -38,8 +38,8 @@ public class LC145 {
                     || (last == node.left && node.right == null)
                     // 2.3上次访问节点是右节点（注意判断非空，避免 last == node.right == null）
                     || (last != null && last == node.right)) {
-                r.add(node.val);
                 last = stack.pop();
+                r.add(node.val);
             } else {
                 // 3确保入栈顺序先右后座，才能保证出栈顺序为先左后右
                 if (node.right != null) {
