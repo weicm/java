@@ -9,7 +9,8 @@ import java.util.List;
 
 public class LC102 {
     public static void main(String[] args) {
-        TreeNode root = TreeUtil.buildTree(new Integer[]{3, 9, 20, null, null, 15, 7});
+        TreeNode root = TreeUtil.build(new Integer[]{3, 9, 20, null, null, 15, 7});
+        TreeUtil.print(root);
         List<List<Integer>> r = levelOrder(root);
         System.out.println(r);
     }

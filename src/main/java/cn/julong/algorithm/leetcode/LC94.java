@@ -9,9 +9,11 @@ import java.util.Stack;
 
 public class LC94 {
     public static void main(String[] args) {
-        TreeNode root = TreeUtil.buildTree(new Integer[]{1, 2, 3, 4, 5, 6, null});
+        // TreeNode root = TreeUtil.build(new Integer[]{1, 2, 3, 4, 5, 6, null});
         // TreeNode root = TreeUtil.buildTree(new Integer[]{1, null, 2, null, null, 3, null});
-        // TreeNode root = TreeUtil.buildTree(new Integer[]{3, 2, null, null, 4, null, null, null, null, 1, null, null,null, null, null});
+        // TreeNode root = TreeUtil.buildAvl(new Integer[]{3, 2, null, null, 4, null, null, null, null, 1, null, null,null, null, null});
+        TreeNode root = TreeUtil.buildCom(new Integer[]{3, 2, null, null, 4, 1});
+        TreeUtil.print(root);
         List<Integer> r = inorderTraversal(root);
         System.out.println(r);
     }
