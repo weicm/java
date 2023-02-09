@@ -16,6 +16,39 @@ public class LC102 {
     }
 
     public static List<List<Integer>> levelOrder(TreeNode root) {
+        // return levelOrderLoop(root);
+        return levelOrderDfs(root);
+    }
+
+    public static List<List<Integer>> levelOrderDfs(TreeNode root) {
+        ArrayList<List<Integer>> r = new ArrayList<>();
+        if (null == root) {
+            return r;
+        }
+        dfs(root, r, 1);
+        return r;
+    }
+
+    private static void dfs(TreeNode node, List<List<Integer>> r, Integer level) {
+        if (null == node) {
+            return;
+        }
+
+        if (r.size() < level) {
+            r.add(new ArrayList<>());
+        }
+
+        r.get(level - 1).add(node.val);
+
+        if (null != node.left) {
+            dfs(node.left, r, level + 1);
+        }
+        if (null != node.right) {
+            dfs(node.right, r, level + 1);
+        }
+    }
+
+    public static List<List<Integer>> levelOrderLoop(TreeNode root) {
         ArrayList<List<Integer>> r = new ArrayList<>();
         if (null == root) {
             return r;
