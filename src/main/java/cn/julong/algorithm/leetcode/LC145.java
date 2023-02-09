@@ -10,10 +10,11 @@ import java.util.Stack;
 public class LC145 {
     public static void main(String[] args) {
         TreeNode root = TreeUtil.buildCom(new Integer[]{1, null, 2, 3});
-                TreeUtil.print(root);
+        TreeUtil.print(root);
         List<Integer> r = postorderTraversal(root);
         System.out.println(r);
     }
+
     public static List<Integer> postorderTraversal(TreeNode root) {
         List<Integer> r = new ArrayList<>();
         if (null == root) {
@@ -23,7 +24,7 @@ public class LC145 {
         stack.push(root);
 
         TreeNode last = null;
-        while(!stack.isEmpty()) {
+        while (!stack.isEmpty()) {
             // 1探测栈顶元素
             TreeNode node = stack.peek();
 
