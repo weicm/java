@@ -222,18 +222,18 @@ public class TreeUtil {
      * @param level
      */
     private static TreeNode fillDfs(TreeNode node, Integer depth, Integer level) {
-        TreeNode tmpNode = node == null || node.val == null ? node : new TreeNode(node.val, node.left, node.right);
-        if (level > depth) {
+        TreeNode tmpNode = node.val == null ? node : new TreeNode(node.val, node.left, node.right);
+        if (level >= depth) {
             return tmpNode;
         }
-        if (level + 1 <= depth && node.left == null) {
+        if (node.left == null) {
             tmpNode.left = new TreeNode();
         }
-        if (level + 1 <= depth && node.right == null) {
+        if (node.right == null) {
             tmpNode.right = new TreeNode();
         }
-        fillDfs(tmpNode.left, depth, level + 1);
-        fillDfs(tmpNode.right, depth, level + 1);
+        tmpNode.left = fillDfs(tmpNode.left, depth, level + 1);
+        tmpNode.right = fillDfs(tmpNode.right, depth, level + 1);
         return tmpNode;
     }
 
@@ -274,8 +274,8 @@ public class TreeUtil {
         // TreeNode root = build(new Integer[]{0, 1, 2, 3, 4, 5, 6, 110, 120, 130, 140, 150, 160, 170, 180,});
         // TreeNode root = build(new Integer[]{1, 2, 3, null, 4, 5, null, null, null, 6, 7}, 1);
         // TreeNode root = buildCom(new Integer[]{0, null, 1, null, 2, null, 3, null, 4, null, 5, null, 6});
-
         TreeNode root = buildCom(new Integer[]{0, 1, null, 2, null, 3, null, 4, null, 5, null, 6});
+
         print(root, " ", 1);
     }
 
