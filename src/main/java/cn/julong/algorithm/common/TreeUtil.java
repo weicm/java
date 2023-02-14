@@ -76,26 +76,26 @@ public class TreeUtil {
         HashMap<Integer, TreeNode> val2Tn = new HashMap<>();
         // pp: 父节点指针, cp: 子节点指针
         for (Integer pp = 0, cp = 0; pp <= cp && cp < arr.length - 1;) {
-            TreeNode node = val2Tn.get(arr[pp]);
+            TreeNode node = val2Tn.get(pp);
             if (node == null) {
                 node = new TreeNode(arr[pp]);
-                val2Tn.put(arr[pp], node);
+                val2Tn.put(pp, node);
             }
             Integer lp = cp + 1, rp = cp + 2;
             TreeNode left = lp >= arr.length || null == arr[lp] ? null : new TreeNode(arr[lp]);
             if (null != left) {
-                val2Tn.put(arr[lp], left);
+                val2Tn.put(lp, left);
             }
             TreeNode right = rp >= arr.length || null == arr[rp] ? null : new TreeNode(arr[rp]);
             if (null != right) {
-                val2Tn.put(arr[rp], right);
+                val2Tn.put(rp, right);
             }
             node.left = left;
             node.right = right;
             cp += 2;
             while (arr[++pp] == null && pp <= cp);
         }
-        return val2Tn.get(arr[0]);
+        return val2Tn.get(0);
     }
 
     /**
