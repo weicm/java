@@ -4,6 +4,7 @@ import cn.julong.algorithm.common.TreeNode;
 import cn.julong.algorithm.common.TreeUtil;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
 
@@ -16,6 +17,16 @@ public class LC145 {
     }
 
     public static List<Integer> postorderTraversal(TreeNode root) {
+        // return singleStack(root);
+        return listStack(root);
+    }
+
+    /**
+     * 单栈法
+     * @param root
+     * @return
+     */
+    private static List<Integer> singleStack(TreeNode root) {
         List<Integer> r = new ArrayList<>();
         if (null == root) {
             return r;
@@ -45,6 +56,31 @@ public class LC145 {
                 if (node.left != null) {
                     stack.push(node.left);
                 }
+            }
+        }
+        return r;
+    }
+
+    /**
+     * 双栈法（链表+栈）
+     * @param root
+     * @return
+     */
+    public static List<Integer> listStack(TreeNode root) {
+        LinkedList<Integer> r = new LinkedList<>();
+        if (root == null) {
+            return r;
+        }
+        Stack<TreeNode> stack = new Stack<>();
+        stack.push(root);
+        while (!stack.isEmpty()) {
+            TreeNode cur = stack.pop();
+            r.addFirst(cur.val);
+            if (cur.left != null) {
+                stack.push(cur.left);
+            }
+            if (cur.right != null) {
+                stack.push(cur.right);
             }
         }
         return r;
