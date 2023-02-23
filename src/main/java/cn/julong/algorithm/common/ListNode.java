@@ -1,4 +1,4 @@
-package cn.julong.algorithm.leetcode.repo;
+package cn.julong.algorithm.common;
 
 import java.util.ArrayList;
 import java.util.List;

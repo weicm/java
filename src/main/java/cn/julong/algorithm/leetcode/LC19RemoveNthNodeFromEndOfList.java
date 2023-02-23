@@ -1,6 +1,6 @@
 package cn.julong.algorithm.leetcode;
 
-import cn.julong.algorithm.leetcode.repo.ListNode;
+import cn.julong.algorithm.common.ListNode;
 
 import java.util.Deque;
 import java.util.LinkedList;
