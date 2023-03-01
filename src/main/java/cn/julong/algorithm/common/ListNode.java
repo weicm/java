@@ -19,6 +19,11 @@ public class ListNode {
         this.next = next;
     }
 
+    @Override
+    public String toString() {
+        return val + " -> " + next;
+    }
+
     public static void print(ListNode ln) {
         List<Integer> res = new ArrayList<>();
         while (ln != null) {
