@@ -75,7 +75,7 @@ public class TreeUtil {
     public static TreeNode buildByCompressArr(Integer[] arr) {
         HashMap<Integer, TreeNode> val2Tn = new HashMap<>();
         // pp: 父节点指针, cp: 子节点指针
-        for (Integer pp = 0, cp = 0; pp <= cp && cp < arr.length - 1;) {
+        for (Integer pp = 0, cp = 0; pp <= cp && cp < arr.length;) {
             TreeNode node = val2Tn.get(pp);
             if (node == null) {
                 node = new TreeNode(arr[pp]);
@@ -93,7 +93,7 @@ public class TreeUtil {
             node.left = left;
             node.right = right;
             cp += 2;
-            while (arr[++pp] == null && pp <= cp);
+            while (++pp < arr.length && arr[pp] == null && pp <= cp);
         }
         return val2Tn.get(0);
     }
