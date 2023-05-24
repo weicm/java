@@ -10,93 +10,87 @@ import java.util.Stack;
  */
 public class LC394 {
     public static void main(String[] args) {
+        LC394 driver = new LC394();
         // String s = "3[a]2[bc]";
         // String s = "3[a2[c]]";
         // String s = "2[abc]3[cd]ef";
-        String s = "abc3[cd]xyz";
-        // String s = "3[z]2[2[y]pq4[2[jk]e1[f]]]ef";
-        System.out.println(decodeString(s));
+        // String s = "abc3[cd]xyz";
+        // String s = "3[z]2[2[y]pq4[2[jk]e1[f]]]ef"; // zzzyypqjkjkefjkjkefjkjkefjkjkefyypqjkjkefjkjkefjkjkefjkjkefef
+        String s = "2[2[y]pq4[2[jk]e1[f]]]"; // zzzyypqjkjkefjkjkefjkjkefjkjkefyypqjkjkefjkjkefjkjkefjkjkefef
+        System.out.println(driver.decodeString(s));
     }
 
-    static public String decodeString(String s) {
+    public String decodeString(String s) {
         int n = s.length();
-        int i = 0;
         String ans = "";
-        while(i < n) {
-            int sei = subEndIndex(s, i);
-            ans += dfsParse(s.substring(i, sei));
-            i = sei;
+        // 字符栈：a-z + [
+        // 数字栈：0-9 + [
+        Stack<Character> abcStack = new Stack();
+        Stack<Character> numStack = new Stack();
+        for(int i = 0; i < n; i++) {
+            char c = s.charAt(i);
+            if(c == ']') { // 右括号
+                // 出栈连续数字
+                int num = popNum(numStack);
+                // 出栈连续字符
+                String str = popStr(abcStack);
+                // 重复字符串
+                String rs = repeat(str, num);
+                // 如果数字栈为空个，则说明没有嵌套数字，直接将重复字符串追加到结果上
+                if(numStack.isEmpty()) {
+                    ans += rs;
+                } else {
+                    // 数字栈不为空，说明还有嵌套数字，将重复字符串压入栈顶
+                    for(int j = 0; j < rs.length(); j++) {
+                        abcStack.push(rs.charAt(j));
+                    }
+                }
+            } else if (c == '[') { // 左括号，需要在字符占和数字栈定均存入一份，作为嵌套的截至符
+                numStack.push(c);
+                abcStack.push(c);
+            } else if(c >= '0' && c <= '9') { // 数字，直接入数字栈
+                numStack.push(c);
+            } if(c >= 'a' && c <= 'z') { // 字符，是否入栈需要判断是否需要重复
+                if (!numStack.isEmpty()) { // 数字栈不为空，需要重复字符，所以字符入栈
+                    abcStack.push(c);
+                } else { // 数字栈为空，不需要重复字符，直接作为结果
+                    ans += c;
+                }
+            }
         }
+
         return ans;
     }
 
-    static Integer subEndIndex(String s, int start) {
-        String subStr = s.substring(start);
-        String sp = abcPrefix(subStr);
-        if(!sp.equals("")) {
-            return start + sp.length();
+    Integer popNum(Stack<Character> stack) {
+        String s = "";
+        // 弹出多余的左括号（左括号在数字的右侧，所有先于数字弹出）
+        if(!stack.isEmpty()) {
+            stack.pop();
+        }
+        while(!stack.isEmpty() && stack.peek() != '[') {
+            s = stack.pop() + s;
         }
 
-        String dp = digitPrefix(subStr);
+        return s.equals("") ? 0 : Integer.valueOf(s);
+    }
 
-        int i = start + dp.length() + 1;
-        if(i > s.length()) {
-            return i;
+    String popStr(Stack<Character> stack) {
+        String s = "";
+        while(!stack.isEmpty() && stack.peek() != '[') {
+            s = stack.pop() + s;
         }
-        Stack<Character> stack = new Stack();
-        stack.push(s.charAt(i));
-        while(i < s.length() && !stack.isEmpty()) {
-            char c = s.charAt(i++);
-            if(c != '[' && c != ']') {
-                continue;
-            }
-            if(c == '[') {
-                stack.push(c);
-            } else {
-                stack.pop();
-            }
+        // 弹出多余的左括号（左括号在字符有左侧，所有最后弹出）
+        if(!stack.isEmpty()) {
+            stack.pop();
         }
-        return i;
+        return s;
     }
-    static String dfsParse(String s) {
-        String sp = abcPrefix(s);
-        if(sp.equals(s)) {
-            return s;
+    String repeat(String str, int n) {
+        String s = "";
+        for(int i = 0; i < n; i++) {
+            s += str;
         }
-        String dp = digitPrefix(s.substring(sp.length()));
-        int count = Integer.valueOf(dp);
-
-        String subInput = s.substring(sp.length() + dp.length() + 1, s.length() - 1);
-        String str = decodeString(subInput);
-        return sp + repeatStr(str, count);
-    }
-
-    static String repeatStr(String str, int count) {
-        String rs = "";
-        for(int i = 0; i < count; i++) {
-            rs += str;
-        }
-        return rs;
-    }
-    static String subStr(String s, int start, int end) {
-        return s.substring(start + 1, end - start);
-    }
-    static String digitPrefix(String s) {
-        int i = 0;
-        while (i < s.length() && isDigit(s, i)) i++;
-        return s.substring(0, i);
-    }
-    static String abcPrefix(String s) {
-        int i = 0;
-        while (i < s.length() && isChar(s, i)) i++;
-        return s.substring(0, i);
-    }
-
-    static Boolean isChar(String s, int i) {
-        return s.charAt(i) >= 'a' && s.charAt(i) <= 'z';
-    }
-
-    static Boolean isDigit(String s, int i) {
-        return s.charAt(i) >= '0' && s.charAt(i) <= '9';
+        return s;
     }
 }
