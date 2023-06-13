@@ -11,33 +11,41 @@ import cn.julong.algorithm.common.TreeUtil;
  */
 public class LC105 {
     public static void main(String[] args) {
-        int[] preorder = new int[]{3, 9, 20, 15, 7};
-        int[] inorder = new int[]{9, 3, 15, 20, 7};
+        int[] preorder = new int[]{1, 2, 3};
+        int[] inorder = new int[]{3, 2, 1};
 
-        TreeNode tree = buildTree(preorder, inorder);
+        LC105 dirver = new LC105();
+        TreeNode tree = dirver.buildTree(preorder, inorder);
 
         TreeUtil.print(tree);
     }
-    static TreeNode buildTree(int[] preorder, int[] inorder) {
-        return dfs(preorder, inorder, 0, new TreeNode(preorder[0]));
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        int n = preorder.length;
+        return dfs(preorder, 0, n - 1, inorder, 0, n - 1);
     }
 
-    static TreeNode dfs(int preorder[], int[] inorder, int i, TreeNode n) {
-
-        int len = preorder.length;
-
-        if(i >= len - 1 || (preorder[i + 1] != inorder[i] && preorder[i + 1] != inorder[i + 1])) {
-            return n;
+    TreeNode dfs(int[] preorder, int preStart, int preEnd, int[] inorder, int inStart, int inEnd) {
+        if(preStart > preEnd || inStart > inEnd) {
+            return null;
         }
+        TreeNode node = new TreeNode(preorder[preStart]);
 
-        n.left = preorder[i + 1] == inorder[i] ? dfs(preorder, inorder, i + 1, new TreeNode(preorder[i + 1])) : null;
+        int inSplitIndex = inSplit(node.val, inorder, inStart, inEnd);
 
-        if(preorder[i + 1] == inorder[i]) {
-            n.right = i < len - 2 ? dfs(preorder, inorder, i + 2, new TreeNode(preorder[i + 2])) : null;
-        } else {
-            n.right = preorder[i] == inorder[i] ? dfs(preorder, inorder, i + 1, new TreeNode(preorder[i + 1])) : null;
+        int leftLen = inSplitIndex - inStart;
+
+        node.left = dfs(preorder, preStart + 1, preStart + leftLen, inorder, inStart, inSplitIndex - 1);
+        node.right = dfs(preorder, preStart + leftLen + 1, preEnd, inorder, inSplitIndex + 1, inEnd);
+
+        return node;
+    }
+
+    int inSplit(int rootVal, int[] inorder, int start, int end) {
+        for(int i = start; i <= end; i++) {
+            if(inorder[i] == rootVal) {
+                return i;
+            }
         }
-
-        return n;
+        return -1;
     }
 }
